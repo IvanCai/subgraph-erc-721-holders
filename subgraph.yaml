@@ -4,32 +4,26 @@ indexerHints:
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: HairyTheBene
+  - kind: ethereum/contract
+    name: ERC721
     network: mainnet
     source:
-      address: "0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270"
-      abi: HairyTheBene
-      startBlock: 11437151
+# if you want to index all nft contract, just delete this field
+      address: "0xbca7b83527b053fd90121d8f50b10814976148e2"
+      abi: ERC721
+      startBlock: 4058883
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Approval
-        - ApprovalForAll
-        - Mint
-        - Transfer
+        - Token
+        - Holder
+        - Collection
       abis:
-        - name: HairyTheBene
-          file: ./abis/HairyTheBene.json
+        - name: ERC721
+          file: ./abis/ERC721.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,indexed uint256)
-          handler: handleApproval
-        - event: ApprovalForAll(indexed address,indexed address,bool)
-          handler: handleApprovalForAll
-        - event: Mint(indexed address,indexed uint256,indexed uint256)
-          handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./src/hairy-the-bene.ts
+      file: ./src/mapping.ts
